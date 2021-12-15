@@ -35,12 +35,25 @@ class Elementor_Test_Widget extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
-			'url',
+			'heading',
 			[
-				'label'       => __( 'URL to embed', 'elementortest' ),
+				'label'       => __( 'Heading', 'elementortest' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
-				'input_type'  => 'url',
-				'placeholder' => __( 'https://your-link.com', 'elementortest' ),
+				'placeholder' => __( 'Some Text', 'elementortest' ),
+			]
+		);
+
+		$this->add_control(
+			'alignment',
+			[
+				'label'   => __( 'Alignment', 'elementortest' ),
+				'type'    => \Elementor\Controls_Manager::SELECT,
+				'default' => 'left',
+				'options' => [
+					'left'   => __( 'left', 'elementortest' ),
+					'center' => __( 'center', 'elementortest' ),
+					'right'  => __( 'right', 'elementortest' ),
+				],
 			]
 		);
 
@@ -50,16 +63,11 @@ class Elementor_Test_Widget extends \Elementor\Widget_Base {
 
 	protected function render() {
 
-		$settings = $this->get_settings_for_display();
+		$settings  = $this->get_settings_for_display();
+		$html      = $settings['heading'];
+		$alignment = $settings['alignment'];
+		echo "<h1 style='text-align: " . esc_attr__( $alignment ) . "'>" . esc_html( $html ) . "</h1>";
 
-		$html = wp_oembed_get( $settings['url'] );
-
-		echo '<div class="oembed-elementor-widget">';
-
-//		echo ( $html ) ? $html : $settings['url'];
-		echo "<h1>{$settings['url']}</h1>";
-
-		echo '</div>';
 
 	}
 
